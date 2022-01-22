@@ -1,3 +1,22 @@
+This fork adds PlatformIO configuration for older WeAct BlackPills based on STM32F401CC microcontrollers.
+
+If you're using VSCode for development, the build process is as follows:
+  - Clone github repo
+  - Run `git submodule update --init --recursive` (in git console inside the repo directory, if on Windows), this is required, because grbl core is referenced as a git submodule.
+  - In VSCode, go to PlatformIO extension -> PlatformIO Core CLI, this will open PlatformIO PowerShell prompt.
+  - Run `pio run --environment blackpill_f401cc`
+  - Wait until PlatformIO downloads all required toolchains and builds the binaries. The latter can be found in the `.pio/build` folder of the repository.
+
+Notes:
+
+As of 22.01.2022 the build occupies about 150k of flash memory, leaving around 100k free even on STM32F401CCs (that are usually installed on "fake"/cloned V3 boards), that offer only 256k of flash, compared to 512k of flash inside of the STM32F401CE (installed on genuine versions).
+
+According to the schematics from [WeAct repo](https://github.com/WeActTC/MiniSTM32F4x1/releases/tag/V.10) board versions V1-V2 do NOT have a diode between USB VBUS and 5V pins of the breakout board, and therefore they can't be powered externally. Only V3 possesses that diode. Fortunately, "fake" clones that claim their version to be V3 seem to be fine too.
+
+I didn't find any changes of the pin mapping among all three board versions.
+
+---
+
 # STM32F4xx grblHAL driver
 
 A grblHAL driver for the STM32F401xC, STM32F407xx, STM32F411xE and STM32F446xx ARM processors.
